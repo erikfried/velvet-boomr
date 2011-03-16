@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script type="text/javascript">
+        //Setting a global timestamp variable as early as possible
+        var t_pagestart = new Date().getTime();
+    </script>
     <title>Velvet test with BOOMR</title>
 </head>
 <body>
@@ -9,27 +13,39 @@
 <p>Using <a href="http://developer.yahoo.com/blogs/ydn/posts/2010/06/performance_testing_with_boomerang/">Boomerang</a>
     and <a href="http://www.velvetmetrics.com/">velvetmetrics</a></p>
 
-<p id="results"></p>
-<img src="http://www.velvetmetrics.com/chart?path=erikfried.test.rt.m&groupBy=day&f=sum&datapoints=true&title=true&axes=true&legends=true&customtitle=Roundtrip%20averages&datalength=5273&w=600&h=250&output=image&rand=1480"
-     alt="loadtime history"/>
+<img src="http://www.velvetmetrics.com/chart?path=velvet-boomr.test.*&groupBy=minute&f=avg&datapoints=true&title=true&axes=true&legends=true&customtitle=Roundtrip%20and%20rendertime%20averages&datalength=60&w=600&h=250&output=image&rand=1480"
+     alt="roundtrip and rendering times"/>
 
-<img src="http://www.velvetmetrics.com/chart?path=erikfried.test.lat.m&groupBy=10min&f=sum&datapoints=true&title=true&axes=true&legends=true&customtitle=Average%20latency&datalength=2800&w=600&h=250&output=image&rand=7574"
-     alt="average latency"/>
-
-<!--script type="text/javascript" src="http://yourjavascript.com/132291371/boomerang.js"></script--> <!-- download from:  https://github.com/yahoo/boomerang -->
-<script type="text/javascript" src="boomerang.js"></script>
-<script type="text/javascript" src="vm_boomr.js"></script>
+<script type="text/javascript" src="http://yourjavascript.com/132291371/boomerang.js"></script> <!-- download from:  https://github.com/yahoo/boomerang -->
+<script type="text/javascript" src="../vm_boomr.js"></script>
 <script type="text/javascript">
+
+    // !IMPORTANT!
+    // For the RT plugin to take this timer into account,
+    // this event handling function must be registered before the RT plugin registers its listener in BOOMR.init()
+    // Eventhandlers are run in the same order as they are registered and this handler must be run before the RT plugins 'page_ready'-handler
+    BOOMR.subscribe('page_ready', function() {
+        var t_pageready = new Date().getTime();
+        BOOMR.plugins.RT.setTimer("t_render", t_pageready - t_pagestart);
+    });
+
+    //Init BOOMR with BW plugin enabled and some VM trackers configured
     BOOMR.init({
         user_ip: "127.0.0.1",  //This should not be hard-coded and should be something unique per "network connection". In a jsp it could just be "${request.remoteAddr}"
         beacon_url: "http://www.velvetmetrics.com/log",
-        BW : { enabled : true, timeout: 1000 },
-        VM : { enabled: true,
-                 cfgs : [ {path : 'erikfried.test.tr.m', boomr_pname : "t_done"},
-                            { path : 'erikfried.test.lat.m' , boomr_pname: 'lat'}
-                          ]
-             }
+        BW : { enabled : true, timeout: 1000},
+        VM : {
+            trackers : [
+                { path : 'velvet-boomr.test.rt', resolver : "t_done"},
+                //Custom timers can be accessed with simple string notation.
+                { path : 'velvet-boomr.test.render', resolver : "t_render" },
+                //Example passing a resolver function instead of just var name.
+                //Not sure if I would rely on it to really track server response times :-)
+                { path : 'velvet-boomr.test.server' , resolver : function serverResponseTime(o, custom_timer) { return o['t_done'] - o['lat'] -custom_timer['t_render'];} }
+            ]
+        }
     });
+
 </script>
 </body>
 </html>

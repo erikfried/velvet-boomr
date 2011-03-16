@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <title>Simplest usage of BOOMR with VelvetMetrics</title>
+</head>
+<body>
+<h1>Testing roundtrip time</h1>
+
+<p>Using <a href="http://developer.yahoo.com/blogs/ydn/posts/2010/06/performance_testing_with_boomerang/">Boomerang</a>
+    and <a href="http://www.velvetmetrics.com/">velvetmetrics</a></p>
+
+<img src="http://www.velvetmetrics.com/chart?path=velvet-boomr.test.rt&groupBy=minute&f=avg&datapoints=true&title=true&axes=true&legends=true&customtitle=Roundtrip%20averages&datalength=60&w=600&h=250&output=image&rand=1480"
+     alt="roundtrip times"/>
+
+
+<script type="text/javascript" src="http://yourjavascript.com/132291371/boomerang.js"></script> <!-- download from:  https://github.com/yahoo/boomerang -->
+<script type="text/javascript" src="../vm_boomr.js"></script>
+<script type="text/javascript">
+
+    //Init BOOMR with just one VM tracker configured
+    BOOMR.init({
+        user_ip: "127.0.0.1",  //This should not be hard-coded and should be something unique per "network connection". E g in a jsp it could just be "${request.remoteAddr}"
+        beacon_url: "http://www.velvetmetrics.com/log",
+        BW : { enabled : false },
+        VM : { trackers : [{ path : 'velvet-boomr.test.rt', resolver : "t_done"}] }
+    });
+
+</script>
+</body>
+</html>
