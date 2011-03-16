@@ -27,7 +27,7 @@
                     other = [],
                     result = {};
 
-                if (!o.t_other){
+                if (!o.t_other) {
                     return result;
                 }
                 others = o.t_other.split(',');
