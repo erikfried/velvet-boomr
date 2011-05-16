@@ -17,13 +17,16 @@
 # Configuration #
 Configuration of the VM plugin takes place under the 'VM' subobject of the Boomerang configuration . It has one required property
 
-###trackers###
-array of objects _\[required\]_ each tracker in the array consists of
+###trackers _\[required\]_###
+array of objects.
+Each tracker in the array consists of
+
 + **path** string _\[required\]_ and
 + **val** `string | function (o , custom_vars)`  _\[required\]_
 
-###baseUrl###
-string _\[optional\]_ defaults to "http://velvetmetrics.com/log". Could be overridden for https or for using some test environment maybe.
+###baseUrl _\[optional\]_###
+string.
+defaults to "http://velvetmetrics.com/log". Could be overridden for https or for using some test environment maybe.
 
 See examples folder for working examples.
 
