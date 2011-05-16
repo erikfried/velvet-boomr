@@ -23,6 +23,10 @@ Each tracker in the array consists of
 
 + **path** `string` _\[required\]_ and
 + **val** `string | function (o , custom_vars)`  _\[required\]_
+    The 'o' here is the object where all standard Boomerang beacon parameters are stored. See: http://yahoo.github.com/boomerang/doc/howtos/howto-0.html
+    The 'custom_vars' object contains any custom vars/timers added
+
+
 
 ###baseUrl _\[optional\]_###
 `string`
