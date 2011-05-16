@@ -8,7 +8,7 @@
         BOOMR.init({
             user_ip: "127.0.0.1",  //This should not be hard-coded and should be something unique per "network connection". E g in a jsp it could just be "${request.remoteAddr}"
             BW : { enabled : false },
-            VM : { trackers : [{ path : 'erikfried.test.tr.m', timerName : "t_done"}] }
+            VM : { trackers : [{ path : 'erikfried.test.tr.m', val : "t_done"}] }
         });
     </script>
     ...
@@ -18,14 +18,14 @@
 Configuration of the VM plugin takes place under the 'VM' subobject of the Boomerang configuration . It has one required property
 
 ###trackers _\[required\]_###
-array of objects.
+`array of objects`
 Each tracker in the array consists of
 
-+ **path** string _\[required\]_ and
++ **path** `string` _\[required\]_ and
 + **val** `string | function (o , custom_vars)`  _\[required\]_
 
 ###baseUrl _\[optional\]_###
-string.
+`string`
 defaults to "http://velvetmetrics.com/log". Could be overridden for https or for using some test environment maybe.
 
 See examples folder for working examples.
