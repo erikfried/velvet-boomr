@@ -16,6 +16,7 @@
 
 # Configuration #
 Configuration of the VM plugin takes place under the 'VM' subobject of the Boomerang configuration . It has one required property
+
 + *trackers* array of objects _\[required\]_ each tracker in the array consists of
 *path* string _\[required\]_ and
 *val* string | `function (o , custom_vars)`  _\[required\]_
