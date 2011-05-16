@@ -24,13 +24,11 @@ Each tracker in the array consists of
 + **path** `string` _\[required\]_ and
 + **val** `string | function (o , custom_vars)`  _\[required\]_
 
-    The typical usage here is to access a parameter directly by its name, using the string argument
+    The typical usage here is to access a (default or custom) parameter directly by its name, using the string argument
 
-    There is also an option to provide a function, possibly calculating som relation between different parameters. As for the arguments to such a function:
-
-    The 'o' here is the object where all standard Boomerang beacon parameters are stored. See: http://yahoo.github.com/boomerang/doc/howtos/howto-0.html
-
-    The 'custom_vars' object contains any custom vars/timers added, and located in the 't_other' parameter
+    There is also an option to provide a function, possibly calculating som relation between different parameters, with the arguments :
+     **'o'** is the object where all standard Boomerang beacon parameters are stored. See: http://yahoo.github.com/boomerang/doc/howtos/howto-0.html .
+    **'custom_vars'** contains any custom vars/timers added, and located in the 't_other' parameter
 
 
 
