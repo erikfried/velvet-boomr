@@ -7,20 +7,20 @@
     <script type="text/javascript">
         BOOMR.init({
             user_ip: "127.0.0.1",  //This should not be hard-coded and should be something unique per "network connection". E g in a jsp it could just be "${request.remoteAddr}"
-            beacon_url: "http://www.velvetmetrics.com/log",
             BW : { enabled : false },
-            VM : { trackers : [{ path : 'erikfried.test.tr.m', resolver : "t_done"}] }
+            VM : { trackers : [{ path : 'erikfried.test.tr.m', timerName : "t_done"}] }
         });
     </script>
     ...
     </html>
 
 # Configuration #
-Configuration of the VM plugin takes place under the 'VM' subobject of the Boomerang configuration . It takes one parameter
-    trackers (array of objects) [required]
-        each tracker in the array consists of
-            path (string) [required] and
-            resolver (string | function (o , custom_vars) [required] 
+Configuration of the VM plugin takes place under the 'VM' subobject of the Boomerang configuration . It has one required property
+* *trackers* (array of objects) _[required]_ each tracker in the array consists of
+** *path* (string) _[required]_ and
+** *val* (string | function (o , custom_vars) ) _[required]_
+
+**baseUrl* _[optional]_ defaults to "http://velvetmetrics.com/log". Could be overridden for https (or for using some test environment maybe).
 
 See examples folder for working examples.
 

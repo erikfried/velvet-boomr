@@ -20,9 +20,8 @@
     //Init BOOMR with just one VM tracker configured
     BOOMR.init({
         user_ip: "127.0.0.1",  //This should not be hard-coded and should be something unique per "network connection". E g in a jsp it could just be "${request.remoteAddr}"
-        beacon_url: "http://www.velvetmetrics.com/log",
         BW : { enabled : false },
-        VM : { trackers : [{ path : 'velvet-boomr.test.rt', resolver : "t_done"}] }
+        VM : { trackers : [{ path : "velvet-boomr.test.rt", val : "t_done"}] }
     });
 
 </script>
