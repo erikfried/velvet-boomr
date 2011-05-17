@@ -1,3 +1,8 @@
+# about #
+This is a plugin to [Boomerang] from The Exceptional Performance team at Yahoo!.
+The plugin allows you to monitor your Boomerang measures via [VelvetMetrics].
+It does not affect the default beaconing built into Boomerang,
+so you can choose to just send a subset of the data to velvetmetrics and still send the whole thing to wherever you like.
 # Simplest usage #
 (track page roundtrip times):
 
