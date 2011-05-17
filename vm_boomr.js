@@ -1,6 +1,5 @@
-/*global BOOMR : true, window */
-// w is the window object
-(function (w) {
+/*global BOOMR : true */
+(function () {
     //It's possible that  plugin is loaded before boomerang, in which case you'll need this.
     BOOMR = BOOMR || {};
     BOOMR.plugins = BOOMR.plugins || {};
@@ -10,29 +9,36 @@
         trackers : [],
         baseUrl : "http://www.velvetmetrics.com/log",
 
-        // Resolve the names and values of any parameters in the 't_other' var.
+        // Resolve the names and values of any parameters in 'o.t_other'.
         // Returns them as an object.
         getCustomVars : function (o) {
             var others = [],
-                    other = [],
-                    result = {};
+                other = [],
+                result = {},
+                ix = 0,
+                n_others = 0;
 
-            if (!o.t_other) {
-                return result;
-            }
-            others = o.t_other.split(',');
-            for (var ix in others) {
-                other = others[ix].split('|');
-                if (other.length !== 2) {
-                    BOOMR.warn("other var could not be split into proper name-value: " + others[ix]);
+            if (o.t_other) {
+                others = o.t_other.split(',');
+                for (ix = 0, n_others = others.length; ix < n_others; ix += 1) {
+                    other = others[ix].split('|');
+                    if (other.length !== 2) {
+                        BOOMR.warn("other var could not be split into proper name-value: " + others[ix]);
+                    }
+                    result[other[0]] = other[1];
                 }
-                result[other[0]] = other[1];
             }
+            //redefine this function. The "result" does only have to be calculated once.
+            impl.getCustomVars = function () {
+                return result;
+            };
             return result;
 
         },
-        resolveVal : function (tracker, o, other_vars) {
-            var value;
+        resolveVal : function (tracker, o) {
+            var value = 0,
+                other_vars = impl.getCustomVars(o);
+
             if (tracker.val && typeof tracker.val === 'string') {
                 value = (o[tracker.val] ? o[tracker.val] : other_vars[tracker.val]);
             } else if (tracker.val && typeof tracker.val === 'function') {
@@ -43,18 +49,18 @@
             return value;
         },
         // The 'main' method.
-        // Performs transformation of parameters from standard boomerang form to fitting the velvet metric api and
-        // slices up the standard single beacon request into one request per metric and
         run : function (o) {
             var tracker = null,
                 value = null,
-                custom_vars = impl.getCustomVars(o);
+                ix = 0,
+                n_trackers = impl.trackers.length,
+                vmbeacon = null;
 
-            for (var ix in impl.trackers) {
+            for (; ix < n_trackers; ix += 1) {
                 tracker = impl.trackers[ix];
-                value = impl.resolveVal(tracker, o, custom_vars);
+                value = impl.resolveVal(tracker, o);
                 if (value) {
-                    var vmbeacon = new Image();
+                    vmbeacon = new Image();
                     vmbeacon.src = impl.baseUrl + "?path=" + tracker.path + "&power=" + value + "&output=image";
                 } else {
                     BOOMR.warn("Could not resolve value for tracker " + tracker.path + ' via ' + tracker.val + ' in ' + o);
@@ -71,7 +77,7 @@
             var properties = ["baseUrl", "trackers"];
             BOOMR.utils.pluginConfig(impl, config, "VM", properties);
 
-            //Intercept action before beacon is requested and transform query parameters
+            //Intercept action before beacon is requested and transform boomerang default parameters
             //to something meaningful for our beacon service api.
             BOOMR.subscribe('before_beacon', impl.run);
 
@@ -83,5 +89,4 @@
             return true;
         }
     };
-
-}(window));
+}());

@@ -28,7 +28,7 @@ Each tracker in the array consists of
 
     There is also an option to provide a function, possibly calculating som relation between different parameters, with the arguments :
      **'o'** is the object where all standard Boomerang beacon parameters are stored. See: http://yahoo.github.com/boomerang/doc/howtos/howto-0.html .
-    **'custom_vars'** contains any custom vars/timers added, and located in the 't_other' parameter
+     **'custom_vars'** contains any custom vars/timers added, and located in the 't_other' parameter
 
 
 
