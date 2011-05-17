@@ -1,24 +1,26 @@
 # about #
-This is a plugin to [Boomerang] from The Exceptional Performance team at Yahoo!.
-The plugin allows you to monitor your Boomerang measures via [VelvetMetrics].
+This is a plugin to [Boomerang](http://yahoo.github.com/boomerang/doc/) from The Exceptional Performance team at Yahoo!.
+The plugin allows you to monitor your Boomerang measures via [VelvetMetrics](http://www.velvetmetrics.com/).
 It does not affect the default beaconing built into Boomerang,
 so you can choose to just send a subset of the data to velvetmetrics and still send the whole thing to wherever you like.
+
 # Simplest usage #
 (track page roundtrip times):
 
-    <!DOCTYPE html>
+  <!DOCTYPE html>
     <html>
-    ... 
-    <script type="text/javascript">
+    ...
+    <script src="boomerang.js"></script> <!-- download from:  https://github.com/yahoo/boomerang -->
+    <script  src="vm_boomr.js"></script>
+    <script>
         BOOMR.init({
-            user_ip: "127.0.0.1",  //This should not be hard-coded and should be something unique per "network connection". E g in a jsp it could just be "${request.remoteAddr}"
+            user_ip: "127.0.0.1",  //This should be set properly
             BW : { enabled : false },
             VM : { trackers : [{ path : 'erikfried.test.tr.m', val : "t_done"}] }
         });
     </script>
     ...
     </html>
-
 # Configuration #
 Configuration of the VM plugin takes place under the 'VM' subobject of the Boomerang configuration . It has one required property
 
