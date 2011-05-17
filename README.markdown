@@ -21,6 +21,7 @@ so you can choose to just send a subset of the data to velvetmetrics and still s
     </script>
     ...
     </html>
+
 # Configuration #
 Configuration of the VM plugin takes place under the 'VM' subobject of the Boomerang configuration . It has one required property
 
