@@ -77,8 +77,7 @@
             var properties = ["baseUrl", "trackers"];
             BOOMR.utils.pluginConfig(impl, config, "VM", properties);
 
-            //Intercept action before beacon is requested and transform boomerang default parameters
-            //to something meaningful for our beacon service api.
+            //Run custom beaconing just before the default beacon is sent 
             BOOMR.subscribe('before_beacon', impl.run);
 
             return this;
