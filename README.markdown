@@ -7,7 +7,6 @@ so you can choose to just send a subset of the data to velvetmetrics and still s
 # Simplest usage #
 (track page roundtrip times):
 
-  <!DOCTYPE html>
     <html>
     ...
     <script src="boomerang.js"></script> <!-- download from:  https://github.com/yahoo/boomerang -->
